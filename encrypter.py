@@ -12,11 +12,38 @@ def encrypt_images(input_image_path):
         img.load()
         img_array = np.asarray(img, dtype=np.uint8)
 
-        print(img_array)
-        
-        # convert array 
+        save_str_as_txt(
+            text_array_wrapper(gen_str(img_array), img_array.shape[1]), input_image
+        )
 
-        # gen str and .txt file
+
+def gen_str(input_array):
+
+    input_array = np.reshape(input_array, newshape=(-1))
+    img_str = ""
+
+    for i in input_array:
+        item_str = str(i)
+        while len(item_str) < 3:
+            item_str = "0" + item_str
+        img_str += item_str
+    return img_str
+
+
+def text_array_wrapper(input_array, width):
+    width_str = str(width)
+    while len(width_str) < 5:
+        width_str = "0" + width_str
+
+    img_str = width_str + input_array
+    return img_str
+
+
+def save_str_as_txt(str_data, name, postfix="encrypted", path="encrypted images"):
+    os.makedirs(path, exist_ok=True)
+    with open(path + "/" + name + postfix, "w") as img_file:
+        img_file.write(str_data)
+
 
 if __name__ == "__main__":
 
