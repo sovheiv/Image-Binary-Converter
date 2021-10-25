@@ -1,8 +1,20 @@
 from PIL import Image
 import numpy as np
 import os
+from datetime import datetime
 
 
+def time_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = datetime.now()
+        result = func(*args, **kwargs)
+        print(str(datetime.now() - start_time).split(":")[2] + " " + func.__name__)
+
+        return result
+
+    return wrapper
+
+@time_decorator
 def encrypt_images(input_image_path):
     all_input_images = os.listdir(input_image_path)
 
