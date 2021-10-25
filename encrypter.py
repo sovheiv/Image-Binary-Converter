@@ -39,9 +39,10 @@ def text_array_wrapper(input_array, width):
     return img_str
 
 
-def save_str_as_txt(str_data, name, postfix="encrypted", path="encrypted images"):
+def save_str_as_txt(str_data, name, postfix="_encrypted", format = ".txt",  path="encrypted images"):
     os.makedirs(path, exist_ok=True)
-    with open(path + "/" + name + postfix, "w") as img_file:
+    name = name.split(".")[0]
+    with open(path + "/" + name + postfix + format, "w") as img_file:
         img_file.write(str_data)
 
 
