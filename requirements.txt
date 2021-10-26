@@ -1,4 +1,0 @@
-PIL
-numpy
-os
-datetime
