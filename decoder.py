@@ -22,12 +22,12 @@ def decode_image(encrypted_image_path):
 
     for input_image in all_input_images:
         img_binary_text = open(encrypted_image_path + "/" + input_image, "r").read()
-        img_text = convert_from_binary_to_text(img_binary_text)
+        img_text = convert_from_binary_to_decimal(img_binary_text)
         save_image(convert_to_array(img_text), input_image)
 
 
 @time_decorator
-def convert_from_binary_to_text(input_binary_text):
+def convert_from_binary_to_decimal(input_binary_text):
     input_binary_array = np.array(list(input_binary_text))
     input_binary_array = input_binary_array.reshape(-1, 4)
     img_text_array = [str(int("".join(item), 2)) for item in input_binary_array]
