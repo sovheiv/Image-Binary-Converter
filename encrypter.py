@@ -20,6 +20,7 @@ def encrypt_images(input_image_path):
     all_input_images = os.listdir(input_image_path)
 
     for input_image in all_input_images:
+        print(f"{input_image} encrypting started")
 
         img = Image.open(input_image_path + "/" + input_image)
         img.load()

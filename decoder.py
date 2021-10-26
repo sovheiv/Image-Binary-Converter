@@ -19,8 +19,8 @@ def time_decorator(func):
 def decode_image(encrypted_image_path):
 
     all_input_images = os.listdir(encrypted_image_path)
-
     for input_image in all_input_images:
+        print(f"{input_image} decoding started")
         img_binary_text = open(encrypted_image_path + "/" + input_image, "r").read()
         img_text = convert_from_binary_to_decimal(img_binary_text)
         save_image(convert_to_array(img_text), input_image)
