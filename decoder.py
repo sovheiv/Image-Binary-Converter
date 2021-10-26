@@ -14,16 +14,28 @@ def time_decorator(func):
 
     return wrapper
 
+
 @time_decorator
 def decode_image(encrypted_image_path):
 
     all_input_images = os.listdir(encrypted_image_path)
 
     for input_image in all_input_images:
-        input_text = open(encrypted_image_path + "/" + input_image, "r").read()
-        save_image(convert_to_array(input_text), input_image)
+        img_binary_text = open(encrypted_image_path + "/" + input_image, "r").read()
+        img_text = convert_from_binary_to_text(img_binary_text)
+        save_image(convert_to_array(img_text), input_image)
 
 
+@time_decorator
+def convert_from_binary_to_text(input_binary_text):
+    input_binary_array = np.array(list(input_binary_text))
+    input_binary_array = input_binary_array.reshape(-1, 4)
+    img_text_array = [str(int("".join(item), 2)) for item in input_binary_array]
+    img_text = "".join(img_text_array)
+    return img_text
+
+
+@time_decorator
 def convert_to_array(input_str_data):
     img_char_array = list(input_str_data)
     width_str = ""
@@ -37,20 +49,12 @@ def convert_to_array(input_str_data):
     img_str_array = np.array(img_char_array, dtype=str)
     img_str_array = img_str_array.reshape(-1, 3)
 
-    img_array = np.array(
-        [int(sum_str_array(item)) for item in img_str_array], dtype=np.uint8
-    )
+    img_array = np.array([int("".join(item)) for item in img_str_array], dtype=np.uint8)
     img_array = img_array.reshape(-1, width, 3)
     return img_array
 
 
-def sum_str_array(str_array):
-    result = ""
-    for i in str_array:
-        result += i
-    return result
-
-
+@time_decorator
 def save_image(
     img_array, name, postfix="_decoded", format=".jpg", path="decoded images"
 ):
@@ -61,3 +65,4 @@ def save_image(
 
 if __name__ == "__main__":
     decode_image("image to decode")
+    # I know that i can use open(image_path,"rb") but it isn't interesting

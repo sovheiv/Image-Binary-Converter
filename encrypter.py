@@ -14,6 +14,7 @@ def time_decorator(func):
 
     return wrapper
 
+
 @time_decorator
 def encrypt_images(input_image_path):
     all_input_images = os.listdir(input_image_path)
@@ -23,12 +24,17 @@ def encrypt_images(input_image_path):
         img = Image.open(input_image_path + "/" + input_image)
         img.load()
         img_array = np.asarray(img, dtype=np.uint8)
+        img_array = text_array_wrapper(gen_str(img_array), img_array.shape[1])
+        save_str_as_txt(convert_to_binary(img_array), input_image)
 
-        save_str_as_txt(
-            text_array_wrapper(gen_str(img_array), img_array.shape[1]), input_image
-        )
+@time_decorator
+def convert_to_binary(input_string):
+    binary_string_array = [format(int(i), "04b") for i in input_string]
+    binary_string = "".join(binary_string_array)
+    return binary_string
 
 
+@time_decorator
 def gen_str(input_array):
 
     input_array = np.reshape(input_array, newshape=(-1))
@@ -42,6 +48,7 @@ def gen_str(input_array):
     return img_str
 
 
+@time_decorator
 def text_array_wrapper(input_array, width):
     width_str = str(width)
     while len(width_str) < 5:
@@ -51,7 +58,10 @@ def text_array_wrapper(input_array, width):
     return img_str
 
 
-def save_str_as_txt(str_data, name, postfix="_encrypted", format = ".txt",  path="encrypted images"):
+@time_decorator
+def save_str_as_txt(
+    str_data, name, postfix="_encrypted", format=".txt", path="encrypted images"
+):
     os.makedirs(path, exist_ok=True)
     name = name.split(".")[0]
     with open(path + "/" + name + postfix + format, "w") as img_file:
@@ -61,3 +71,4 @@ def save_str_as_txt(str_data, name, postfix="_encrypted", format = ".txt",  path
 if __name__ == "__main__":
 
     encrypt_images(input_image_path="image to encrypt")
+    # I know that i can use open(image_path,"rb") but it isn't interesting
