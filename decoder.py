@@ -56,7 +56,7 @@ def convert_to_array(input_str_data):
 
 @time_decorator
 def save_image(
-    img_array, name, postfix="_decoded", format=".jpg", path="decoded images"
+    img_array, name, postfix="_decoded", format=".jpg", path="decoded_images"
 ):
     os.makedirs(path, exist_ok=True)
     name = name.split(".")[0]
@@ -64,5 +64,5 @@ def save_image(
 
 
 if __name__ == "__main__":
-    decode_image("image to decode")
+    decode_image("image_to_decode")
     # I know that i can use open(image_path,"rb") but it isn't interesting

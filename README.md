@@ -1,4 +1,4 @@
-This software allow you to convert images to binary code and vice versa
+This software allows you to convert images to binary code and vice versa
 
 This iteration of program can convert .jpg images only
 

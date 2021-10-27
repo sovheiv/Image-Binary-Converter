@@ -1,4 +1,2 @@
-PIL
+Pillow
 numpy
-os
-datetime

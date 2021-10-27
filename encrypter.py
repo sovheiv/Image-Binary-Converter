@@ -61,7 +61,7 @@ def text_array_wrapper(input_array, width):
 
 @time_decorator
 def save_str_as_txt(
-    str_data, name, postfix="_encrypted", format=".txt", path="encrypted images"
+    str_data, name, postfix="_encrypted", format=".txt", path="encrypted_images"
 ):
     os.makedirs(path, exist_ok=True)
     name = name.split(".")[0]
@@ -71,5 +71,5 @@ def save_str_as_txt(
 
 if __name__ == "__main__":
 
-    encrypt_images(input_image_path="image to encrypt")
+    encrypt_images(input_image_path="image_to_encrypt")
     # I know that i can use open(image_path,"rb") but it isn't interesting
