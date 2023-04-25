@@ -1,7 +1,8 @@
-from PIL import Image
-import numpy as np
 import os
 from datetime import datetime
+
+import numpy as np
+from PIL import Image
 
 
 def time_decorator(func):
@@ -16,8 +17,9 @@ def time_decorator(func):
 
 
 @time_decorator
-def encrypt_images(input_image_path):
+def encrypt_images(input_image_path, intermediate_save=False):
     all_input_images = os.listdir(input_image_path)
+    print(f"Start encrypting all")
 
     for input_image in all_input_images:
         print(f"{input_image} encrypting started")
@@ -25,8 +27,13 @@ def encrypt_images(input_image_path):
         img = Image.open(input_image_path + "/" + input_image)
         img.load()
         img_array = np.asarray(img, dtype=np.uint8)
-        img_array = text_array_wrapper(gen_str(img_array), img_array.shape[1])
-        save_str_as_txt(convert_to_binary(img_array), input_image)
+
+        if intermediate_save:
+            save_intermediate(input_image, img_array)
+
+        img_numbers = text_array_wrapper(gen_str(img_array), img_array.shape[1])
+        save_str_as_txt(convert_to_binary(img_numbers), input_image)
+
 
 @time_decorator
 def convert_to_binary(input_string):
@@ -37,7 +44,6 @@ def convert_to_binary(input_string):
 
 @time_decorator
 def gen_str(input_array):
-
     input_array = np.reshape(input_array, newshape=(-1))
     img_str = ""
 
@@ -69,7 +75,15 @@ def save_str_as_txt(
         img_file.write(str_data)
 
 
-if __name__ == "__main__":
+def save_intermediate(name, img_array, path="intermediate_arrays"):
+    os.makedirs(path, exist_ok=True)
+    img_str = img_array.astype(str)
+    img_2d = np.array([[" ".join(pixel) for pixel in row] for row in img_str])
 
-    encrypt_images(input_image_path="image_to_encrypt")
-    # I know that i can use open(image_path,"rb") but it isn't interesting
+    np.savetxt(
+        f'{path}/{name.split(".")[0]}_pixels_2d_array.txt', img_2d, fmt="%-10s", delimiter="|"
+    )
+
+
+if __name__ == "__main__":
+    encrypt_images(input_image_path="image_to_encrypt", intermediate_save=True)

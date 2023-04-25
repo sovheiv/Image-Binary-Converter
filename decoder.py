@@ -1,7 +1,8 @@
 import os
+from datetime import datetime
+
 import numpy as np
 from PIL import Image
-from datetime import datetime
 
 
 def time_decorator(func):
@@ -16,9 +17,10 @@ def time_decorator(func):
 
 
 @time_decorator
-def decode_image(encrypted_image_path):
-
+def decode_images(encrypted_image_path):
     all_input_images = os.listdir(encrypted_image_path)
+    print(f"Start decoding all")
+
     for input_image in all_input_images:
         print(f"{input_image} decoding started")
         img_binary_text = open(encrypted_image_path + "/" + input_image, "r").read()
@@ -64,5 +66,4 @@ def save_image(
 
 
 if __name__ == "__main__":
-    decode_image("image_to_decode")
-    # I know that i can use open(image_path,"rb") but it isn't interesting
+    decode_images("image_to_decode")

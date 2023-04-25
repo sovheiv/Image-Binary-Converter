@@ -1,1 +1,5 @@
 set_of_images/
+decoded_images/
+encrypted_images/
+intermediate_arrays/
+venv/
